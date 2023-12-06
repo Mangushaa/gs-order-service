@@ -1,0 +1,38 @@
+name: gs-order-service
+on: push
+env:
+  REGISTRY: ghrc.io
+  IMAGE_NAME: Mangushaa/gs-order-service
+  VERSION: 1
+jobs:
+  build:
+    name: Build service
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: SetUp JDK
+        uses: actions/setup-java@v3
+        with:
+          distribution: temurin
+          java-version: 17
+          cache: maven
+      - name: Build
+        run: .mvnw package
+  package:
+    name: Create image and push to registy
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: SetUp JDK
+        uses: actions/setup-java@v3
+        with:
+          distribution: temurin
+          version: 17
+          cache: maven
+      - name: Package and push to registry
+        run:
+
+
+

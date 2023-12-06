@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gs-order-service-db
+  labels:
+    db: gs-order-service-db
+spec:
+  selector:
+    matchLabels:
+      db: gs-order-service-db
+  template:
+    metadata:
+      labels:
+        db: gs-order-service-db
+    spec:
+      containers:
+        - name: gs-order-service-db
+          image: mysql:8.0.31
+          env:
+            - name: MYSQL_DATABASE
+              value: gs-order-service
+            - name: MYSQL_ROOT_PASSWORD
+              value: password
+#          resources:
+#            requests:
+#              cpu: 100m
+#              memory: 60Mi
+#            limits:
+#              cpu: 200m
+#              memory: 120Mi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: gs-order-service-db
+  labels:
+    db: gs-order-service-db
+spec:
+  type: ClusterIP
+  selector:
+    db: gs-order-service-db
+  ports:
+    - protocol: TCP
+      port: 3307
+      targetPort: 3306
+

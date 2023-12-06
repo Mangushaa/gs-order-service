@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gs-order-service
+  labels:
+    app: gs-order-service
+spec:
+  selector:
+    matchLabels:
+      app: gs-order-service
+  template:
+    spec:
+      containers:
+        - name: gs-order-service
+          image: gs-order-service:1
+          imagePullPolicy: IfNotPresent
+          ports:
+            - 8082:8082
+          env:
+            - name: CONFIG_SERVER_URL
+              value: "http://gs-config-server"
+            - name: GS_ORDER_SERVICE_DB_URL
+              value: "jdbc:mysql://gs-catalog-db:3307/${GS_CATALOG_DB}"
+            - name: GS_ORDER_SERVICE_DB_USERNAME
+              value: root
+            - name: GS_ORDER_SERVICE_DB_PASSWORD
+              value: password
+            - name: GS_CATALOG_SERVICE_URL
+              value: http://gs-catalog
