@@ -1,0 +1,11 @@
+DROP TABLE IF EXISTS Orders;
+CREATE TABLE GOrders (
+    id INT NOT NULL AUTO_INCREMENT,
+    orderUuid VARCHAR(255) NOT NULL UNIQUE,
+    total INT NOT NULL,
+    orderStatus ENUM ('CONFIRMED', 'DELIVERY', 'FINISHED') ,
+    createdAt TIMESTAMP,
+    modifiedAt TIMESTAMP,
+    version INTEGER DEFAULT 0,
+    PRIMARY KEY (id)
+)

@@ -9,21 +9,46 @@ spec:
     matchLabels:
       app: gs-order-service
   template:
+    metadata:
+      labels:
+        app: gs-order-service
     spec:
       containers:
         - name: gs-order-service
           image: gs-order-service:1
           imagePullPolicy: IfNotPresent
-          ports:
-            - 8082:8082
           env:
             - name: CONFIG_SERVER_URL
               value: "http://gs-config-server"
             - name: GS_ORDER_SERVICE_DB_URL
-              value: "jdbc:mysql://gs-catalog-db:3307/${GS_CATALOG_DB}"
+              value: "jdbc:mysql://gs-order-service-db:3307/gs-order-service"
             - name: GS_ORDER_SERVICE_DB_USERNAME
               value: root
             - name: GS_ORDER_SERVICE_DB_PASSWORD
               value: password
             - name: GS_CATALOG_SERVICE_URL
               value: http://gs-catalog
+            - name: BPL_DEBUG_ENABLED
+              value: 'true'
+            - name: BPL_DEBUG_PORT
+              value: '5001'
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: gs-order-service
+  labels:
+    app: gs-order-service
+spec:
+  type: ClusterIP
+  selector:
+    app: gs-order-service
+  ports:
+    - protocol: TCP
+      name: 'app-port'
+      port: 8081
+      targetPort: 8081
+    - protocol: TCP
+      name: 'debug-port'
+      port: 5001
+      targetPort: 5001

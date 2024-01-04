@@ -5,5 +5,5 @@ custom_build(
     deps=['pom.xml', 'src']
 )
 
-k8s_yaml(['k8s/gs-order-service-db.yml', 'gs-order-service.yml'])
-k8s_resource(workload='gs-order-service-db', port_forwards='8082:8082')
+k8s_yaml(['k8s/gs-order-service-db.yml', 'k8s/gs-order-service.yml'])
+k8s_resource(workload='gs-order-service', port_forwards=['8082:8082','5001:5001'])

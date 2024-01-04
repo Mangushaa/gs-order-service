@@ -4,3 +4,18 @@ server:
 spring:
   application:
     name: gs-order-service
+
+  r2dbc:
+    url: ${GS_ORDER_SERVICE_DB_URL:r2dbc:mysql://localhost:3306/gs-order-service}
+    username: ${GS_ORDER_SERVICE_DB_USERNAME:root}
+    password: ${GS_ORDER_SERVICE_DB_USERNAME:SethRollins2020}
+
+  flyway:
+    url: ${GS_ORDER_SERVICE_DB_URL:jdbc:mysql://localhost:3306/gs-order-service}
+    user: ${GS_ORDER_SERVICE_DB_USERNAME:root}
+    password: ${GS_ORDER_SERVICE_DB_USERNAME:SethRollins2020}
+
+backing:
+  service:
+    catalog:
+      url: ${CATALOG_URL:http://localhost:8081/api/v1/catalog}
